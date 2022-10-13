@@ -1,4 +1,4 @@
-# Learning Docker Compose 
+# Learning Docker Compose
 
 learning docker compose with 2 container
 
