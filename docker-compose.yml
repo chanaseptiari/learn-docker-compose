@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  php:
+    # image: php:5.6.40-apache
+    build: ./apps
+    restart: always
+    ports:
+      - "8888:80"
+    volumes:
+      - ./apps:/var/www/html
+    environment:
+      USER: "sample user"
+      MARIADB_USER: example-user
+      MARIADB_PASSWORD: example-user-password
+      MARIADB_HOST: 10.5.0.5
+    networks:
+      backend:
+        ipv4_address: 10.5.0.6
+
+  db:
+    image: mariadb
+    restart: always
+    volumes:
+      - "./data/db:/var/lib/mysql"
+    environment:
+      MARIADB_ROOT_PASSWORD: example-root-password
+      MARIADB_USER: example-user
+      MARIADB_PASSWORD: example-user-password
+    networks:
+      backend:
+        ipv4_address: 10.5.0.5
+
+networks:
+  backend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/28
+          gateway: 10.5.0.1
