@@ -2,7 +2,6 @@ version: '3.8'
 
 services:
   php:
-    # image: php:5.6.40-apache
     build: ./apps
     restart: always
     ports:
@@ -19,7 +18,7 @@ services:
         ipv4_address: 10.5.0.6
 
   db:
-    image: mariadb
+    image: mariadb:10.9.3
     restart: always
     volumes:
       - "./data/db:/var/lib/mysql"
