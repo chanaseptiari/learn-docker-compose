@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  web-server:
+    container_name: web-server
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./apps/web:/var/www/html
+      - ./conf/web:/etc/nginx/conf.d
+    depends_on:
+      - php
+
+  php:
+    container_name: php-proccess
+    build: ./conf/php
+    ports:
+      - 9000
+    volumes:
+      - ./apps/web:/var/www/html
