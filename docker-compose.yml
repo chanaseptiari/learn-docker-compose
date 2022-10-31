@@ -11,11 +11,31 @@ services:
       - ./conf/web:/etc/nginx/conf.d
     depends_on:
       - php
+      - db
 
   php:
     container_name: php-proccess
     build: ./conf/php
     ports:
       - 9000
+    environment:
+      MARIADB_HOST: db
+      MARIADB_USER: root
+      MARIADB_PASSWORD: example-root-password
+      MARIADB_DATABASE: testing
     volumes:
       - ./apps/web:/var/www/html
+    links:
+      - db
+
+  db:
+    container_name: db-apps
+    image: mariadb:10.9.3
+    restart: always
+    ports:
+      - 3306
+    environment:
+      MARIADB_ROOT_PASSWORD: example-root-password
+      MARIADB_DATABASE: testing
+    volumes:
+      - ./apps/db:/docker-entrypoint-initdb.d
